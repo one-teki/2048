@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cat2048 - 癒しの猫パズルゲーム</title>
+    <title>Cat2048 - Cute Cat Puzzle Game</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
         
@@ -217,7 +217,6 @@
             font-size: 2em;
             font-weight: 800;
             color: #e17055;
-            margin-bottom: 15px;
             text-align: center;
         }
 
@@ -298,32 +297,31 @@
         <div class="top-section">
             <div class="score-container">
                 <div class="score-box">
-                    <div class="score-label">スコア</div>
+                    <div class="score-label">Score</div>
                     <div class="score-value" id="score">0</div>
                 </div>
                 <div class="score-box">
-                    <div class="score-label">ベスト</div>
+                    <div class="score-label">Best</div>
                     <div class="score-value" id="best">0</div>
                 </div>
             </div>
             <div class="controls">
-                <button class="btn" onclick="game.restart()">新ゲーム</button>
-                <button class="btn" onclick="game.undo()">戻す</button>
+                <button class="btn" onclick="game.restart()">New Game</button>
+                <button class="btn" onclick="game.undo()">Undo</button>
             </div>
         </div>
 
         <div class="game-board">
             <div class="grid-container">
                 <div class="grid-background" id="grid-background">
-                    <!-- 背景グリッド -->
+                    <!-- Background Grid -->
                 </div>
                 <div class="grid-tiles" id="grid-tiles">
-                    <!-- タイル -->
+                    <!-- Tiles -->
                 </div>
             </div>
             <div class="game-over" id="gameOver">
-                <div class="game-over-text">ゲーム終了 😿</div>
-                <button class="btn" onclick="restartGame()">もう一度プレイ</button>
+                <div class="game-over-text">Game Over 😿</div>
             </div>
         </div>
 
@@ -350,7 +348,7 @@
             }
 
             init() {
-                // グリッドの初期化（4x4の2次元配列）
+                // Initialize grid (4x4 2D array)
                 this.grid = [];
                 for (let i = 0; i < this.size; i++) {
                     this.grid[i] = [];
@@ -359,10 +357,10 @@
                     }
                 }
 
-                // 背景グリッドの生成
+                // Create background grid
                 this.createBackgroundGrid();
                 
-                // 初期タイルの追加
+                // Add initial tiles
                 this.addRandomTile();
                 this.addRandomTile();
                 
@@ -387,7 +385,7 @@
             }
 
             setupEventListeners() {
-                // キーボードイベント
+                // Keyboard events
                 document.addEventListener('keydown', (e) => {
                     if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
                         e.preventDefault();
@@ -396,7 +394,7 @@
                     }
                 });
 
-                // タッチイベント
+                // Touch events
                 let startX, startY;
                 const gameBoard = document.querySelector('.game-board');
                 
@@ -427,7 +425,7 @@
                     startX = startY = null;
                 });
 
-                // リサイズイベント
+                // Resize events
                 window.addEventListener('resize', () => {
                     this.updateDisplay();
                 });
@@ -447,7 +445,7 @@
                 
                 let moved = false;
                 let scoreGained = 0;
-                let mergeCount = 0; // マージした回数をカウント
+                let mergeCount = 0; // Count number of merges
                 
                 const newGrid = this.grid.map(row => [...row]);
                 
@@ -514,7 +512,7 @@
                     this.score += scoreGained;
                     this.addRandomTile();
                     
-                    // マージ回数に応じて異なる音声を再生
+                    // Play different sounds based on merge count
                     if (mergeCount > 0) {
                         this.playCatSound(mergeCount);
                     }
@@ -530,7 +528,7 @@
             }
 
             slideAndMergeRow(row) {
-                // 0を除去
+                // Remove zeros
                 const filtered = row.filter(val => val !== 0);
                 const merged = [];
                 let score = 0;
@@ -538,18 +536,18 @@
                 
                 for (let i = 0; i < filtered.length; i++) {
                     if (i < filtered.length - 1 && filtered[i] === filtered[i + 1]) {
-                        // マージ
+                        // Merge
                         const mergedValue = filtered[i] * 2;
                         merged.push(mergedValue);
                         score += mergedValue;
                         mergeCount++;
-                        i++; // 次の要素をスキップ
+                        i++; // Skip next element
                     } else {
                         merged.push(filtered[i]);
                     }
                 }
                 
-                // 0で埋める
+                // Fill with zeros
                 while (merged.length < this.size) {
                     merged.push(0);
                 }
@@ -590,7 +588,7 @@
                             tile.className = `tile tile-${this.grid[row][col]}`;
                             tile.textContent = this.grid[row][col];
                             
-                            // 位置とサイズの設定
+                            // Set position and size
                             const left = col * (this.cellSize + this.gap);
                             const top = row * (this.cellSize + this.gap);
                             
@@ -599,13 +597,13 @@
                             tile.style.width = `${this.cellSize}px`;
                             tile.style.height = `${this.cellSize}px`;
                             
-                            // フォントサイズの調整
+                            // Adjust font size
                             let fontSize = this.cellSize * 0.35;
                             if (this.grid[row][col] >= 128) fontSize = this.cellSize * 0.28;
                             if (this.grid[row][col] >= 1024) fontSize = this.cellSize * 0.22;
                             tile.style.fontSize = `${fontSize}px`;
                             
-                            // 新しいタイルのアニメーション
+                            // New tile animation
                             if (this.isNewTile(row, col)) {
                                 tile.classList.add('tile-new');
                             }
@@ -615,7 +613,7 @@
                     }
                 }
                 
-                // スコアの更新
+                // Update scores
                 document.getElementById('score').textContent = this.score;
                 this.updateBestScore();
                 document.getElementById('best').textContent = this.bestScore;
@@ -634,14 +632,14 @@
             }
 
             isGameOver() {
-                // 空のセルがあるかチェック
+                // Check for empty cells
                 for (let row = 0; row < this.size; row++) {
                     for (let col = 0; col < this.size; col++) {
                         if (this.grid[row][col] === 0) return false;
                     }
                 }
                 
-                // 隣接するセルで同じ値があるかチェック
+                // Check for possible merges
                 for (let row = 0; row < this.size; row++) {
                     for (let col = 0; col < this.size; col++) {
                         const current = this.grid[row][col];
@@ -677,30 +675,25 @@
                 try {
                     let audioFile;
                     if (mergeCount === 1) {
-                        // 1つのマージの場合
+                        // Single merge
                         audioFile = 'cat-meow.mp3';
                     } else {
-                        // 2つ以上のマージの場合
+                        // Multiple merges
                         audioFile = 'cat-meow-multiple.mp3';
                     }
                     
                     const audio = new Audio(audioFile);
                     audio.volume = 0.3;
                     audio.play().catch(e => {
-                        console.log('音声の再生に失敗しました:', e);
+                        console.log('Audio playback failed:', e);
                     });
                 } catch (e) {
-                    console.log('音声ファイルが見つかりません');
+                    console.log('Audio file not found');
                 }
             }
         }
 
-        // グローバル関数として定義（ゲームオーバー画面のボタン用）
-        function restartGame() {
-            game.restart();
-        }
-
-        // ゲームの初期化
+        // Initialize game
         const game = new Cat2048Game();
     </script>
 </body>
